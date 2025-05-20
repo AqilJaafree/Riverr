@@ -23,6 +23,11 @@
 
   --button-gradient-start: rgba(15, 15, 15, 0);
   --button-gradient-end: rgba(22, 50, 122, 1);
+  --gradient: linear-gradient(
+    90deg,
+    rgba(15, 15, 15, 0) 0%,
+    rgba(22, 50, 122, 1) 100%
+  );
 
   --sub-text: #a0a0a0;
 
@@ -190,6 +195,12 @@
   h6,
   p {
     @apply font-sans;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 

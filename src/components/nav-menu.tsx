@@ -1,68 +1,111 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import React, { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  ListIcon,
-  BridgeIcon,
-  HouseIcon,
-  WalletIcon,
-} from "@phosphor-icons/react";
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+ 
+const components: { title: string; href: string; description: string }[] = [
+  {
+    title: "Dashboard",
+    href: "/",
+    description:
+      "Chat with AI to find the best LP for your BTC.",
+  },
+  {
+    title: "Profile",
+    href: "/profile",
+    description:
+      "Check wallet balance and LP positions.",
+  },
+  {
+    title: "Bridge",
+    href: "/bridge",
+    description:
+      "Convert BTC to lBTC via bridge.",
+  },
+]
+
 
 export default function NavMenu() {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState<string>('[&_div.absolute]:right-auto [&_div.absolute]:left-0');
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const routes = [
-    { name: "Dashboard", path: "/", icon: HouseIcon },
-    { name: "Profile", path: "/profile", icon: WalletIcon },
-    { name: "Bridge", path: "/bridge", icon: BridgeIcon },
-  ];
+  const checkPosition = () => {
+    if (menuRef.current) {
+      const menuRect = menuRef.current.getBoundingClientRect();
+      const menuWidth = 280; // Width of your menu content
+      const spaceOnRight = window.innerWidth - menuRect.left;
+
+      if (spaceOnRight < menuWidth) {
+        setPosition('[&_div.absolute]:left-auto [&_div.absolute]:right-0');
+      } else {
+        setPosition('[&_div.absolute]:right-auto [&_div.absolute]:left-0');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      checkPosition();
+      window.addEventListener('resize', checkPosition);
+    }
+    return () => window.removeEventListener('resize', checkPosition);
+  }, [isOpen]);
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <Button variant="icon" size="icon" className="h-8 w-8">
-          <ListIcon className="h-5 w-5" />
-          <span className="sr-only">Navigation Menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 bg-background border">
-        {routes.map((route) => {
-          const isActive = pathname === route.path;
-          return (
-            <DropdownMenuItem
-              key={route.path}
-              asChild
-              className={`${
-                isActive ? "bg-primary text-white" : "text-white"
-              } hover:bg-primary/20 hover:text-primary cursor-pointer group`}
-              onClick={() => setOpen(false)}
-            >
-              <Link
-                href={route.path}
-                className="flex items-center gap-2 w-full"
-              >
-                <route.icon
-                  className={`${
-                    isActive ? "text-white" : "text-primary"
-                  } group-hover:text-primary`}
-                  size={20}
-                />
-                {route.name}
-              </Link>
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <NavigationMenu ref={menuRef} className={position} onValueChange={(value) => setIsOpen(!!value)}>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="lg:w-[280px] w-[230px] gap-3 p-2 flex flex-col">
+              {components.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href={component.href}
+                >
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 }
+
+const ListItem = React.forwardRef<
+  React.ComponentRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-secondary hover:text-white focus:bg-secondary focus:text-white",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-white">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  )
+})
+ListItem.displayName = "ListItem"
