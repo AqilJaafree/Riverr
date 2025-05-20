@@ -1,10 +1,14 @@
-import React from 'react'
+
+import Dashboard from "@/components/profile-components/Dashboard";
 import Header from '@/components/header'
+
 const Profile = () => {
   return (
     <div>
-      <Header/>
-      Profile
+      <Header />
+      <main className="p-6">
+        <Dashboard />
+      </main>
     </div>
   )
 }
