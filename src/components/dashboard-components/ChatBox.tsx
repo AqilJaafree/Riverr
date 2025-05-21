@@ -12,12 +12,13 @@ import ChatInput from "../chat-input";
 import QuickActionButtons from "./QuickActionButton";
 import PortfolioStyleModal from "./PortfolioStyleModal";
 import { Button } from "../ui/button";
+import { anthropicService } from "@/services/anthropic";
+import { ChatMessage as ChatMessageType } from "@/types/anthropic";
+import { CHAT_CONFIG } from "@/config";
 
 const ChatBox = () => {
   const [showWelcome, setShowWelcome] = useState(true);
-  const [messages, setMessages] = useState<
-    { role: "user" | "assistant"; content: string }[]
-  >([]);
+  const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -32,29 +33,50 @@ const ChatBox = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim()) {
       if (showWelcome) {
         setShowWelcome(false);
       }
 
       setIsLoading(true);
-      setMessages([...messages, { role: "user", content: input }]);
+      const userMessage: ChatMessageType = { role: "user", content: input };
+      setMessages((prev) => [...prev, userMessage]);
+      setInput("");
 
-      // Simulate AI response
-      setTimeout(() => {
+      try {
+        // Format the context message about Riverr
+        const contextMessage = {
+          role: "user" as const,
+          content: CHAT_CONFIG.initialPrompt
+        };
+        
+        // Format the conversation history for Anthropic
+        const conversationHistory = [
+          contextMessage,
+          ...messages,
+          userMessage
+        ];
+
+        // Get response from Anthropic
+        const response = await anthropicService.sendMessage(conversationHistory);
+        
         setMessages((prev) => [
           ...prev,
-          {
-            role: "assistant",
-            content:
-              "Thanks for your message. I can help you with information about BTC liquidity on Sui. What would you like to know?",
-          },
+          { role: "assistant", content: response }
         ]);
+      } catch (error) {
+        console.error("Error getting response:", error);
+        setMessages((prev) => [
+          ...prev,
+          { 
+            role: "assistant", 
+            content: "I'm sorry, I encountered an error processing your request. Please try again later."
+          }
+        ]);
+      } finally {
         setIsLoading(false);
-      }, 1000);
-
-      setInput("");
+      }
     }
   };
 
@@ -108,7 +130,10 @@ const ChatBox = () => {
 
         {/* Chat input area for welcome screen */}
         <div className="w-full">
-          <QuickActionButtons onQuickAction={handleSend} />
+          <QuickActionButtons onQuickAction={(query) => {
+            setInput(query);
+            handleSend();
+          }} />
           <ChatInput
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -153,7 +178,10 @@ const ChatBox = () => {
 
       {/* Fixed chat input area */}
       <div className="w-full">
-        <QuickActionButtons onQuickAction={handleSend} />
+        <QuickActionButtons onQuickAction={(query) => {
+          setInput(query);
+          handleSend();
+        }} />
         <ChatInput
           value={input}
           onChange={(e) => setInput(e.target.value)}
