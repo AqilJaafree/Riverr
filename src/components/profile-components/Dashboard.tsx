@@ -7,7 +7,6 @@ import TokenTable from "@/components/profile-components/TokenTable";
 export default function Dashboard() {
     return (
         <div className="space-y-8">
-            <SummarySection />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <TokenAllocationChart />
                 <PerformanceChart />
