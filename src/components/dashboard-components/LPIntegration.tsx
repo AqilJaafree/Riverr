@@ -240,7 +240,7 @@ const LPIntegration: React.FC<LPIntegrationProps> = ({ portfolioStyle }) => {
             </p>
           )}
 
-          <div className="w-full space-y-2">
+          <div className="w-full">
             {!connected ? (
               <div className="[&_.wkit-button]:!w-full [&_.wkit-connected-button]:!w-full">
                 <ConnectButton />
@@ -257,14 +257,6 @@ const LPIntegration: React.FC<LPIntegrationProps> = ({ portfolioStyle }) => {
                 Provide LP to {portfolioStyle.charAt(0).toUpperCase() + portfolioStyle.slice(1)} Pool
               </Button>
             )}
-            
-            <Button 
-              variant="outline" 
-              className="w-full"
-              onClick={() => window.open(`https://suiexplorer.com/object/${pool.address}?network=testnet`, '_blank')}
-            >
-              View Pool Details on Explorer
-            </Button>
           </div>
         </CardContent>
       </Card>

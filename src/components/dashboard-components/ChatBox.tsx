@@ -11,8 +11,10 @@ import ChatMessage from "../chat-message";
 import ChatInput from "../chat-input";
 import QuickActionButtons from "./QuickActionButton";
 import PortfolioStyleModal from "./PortfolioStyleModal";
+import LPIntegration from "./LPIntegration";
 import RecommendedPool from "../RecommendedPool";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 import { anthropicService } from "@/services/anthropic";
 import { ChatMessage as ChatMessageType } from "@/types/anthropic";
 import { CHAT_CONFIG } from "@/config";
@@ -28,6 +30,7 @@ const ChatBox = () => {
   const [selectedPortfolioStyle, setSelectedPortfolioStyle] = useState<
     string | null
   >(null);
+  const [isLPModalOpen, setIsLPModalOpen] = useState(false);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -130,7 +133,19 @@ const ChatBox = () => {
           
           {/* Display recommended pool if portfolio style is selected */}
           {selectedPortfolioStyle && (
-            <RecommendedPool portfolioStyle={selectedPortfolioStyle} />
+            <div className="space-y-4">
+              <RecommendedPool portfolioStyle={selectedPortfolioStyle} />
+              {/* Add Liquidity button appears after strategy selection */}
+              <Button
+                variant="gradient"
+                size="gradient"
+                className="w-full"
+                onClick={() => setIsLPModalOpen(true)}
+              >
+                <PlusIcon size={20} />
+                Add Liquidity to {selectedPortfolioStyle.charAt(0).toUpperCase() + selectedPortfolioStyle.slice(1)} Pool
+              </Button>
+            </div>
           )}
         </div>
 
@@ -139,7 +154,8 @@ const ChatBox = () => {
           <QuickActionButtons onQuickAction={(query) => {
             setInput(query);
             handleSend();
-          }} />
+          }} 
+          disabled={isLoading} />
           <ChatInput
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -149,11 +165,68 @@ const ChatBox = () => {
             isLoading={isLoading}
           />
         </div>
+        
         <PortfolioStyleModal
           isOpen={isPortfolioStyleModalOpen}
           onClose={() => setIsPortfolioStyleModalOpen(false)}
           onSelectStyle={setSelectedPortfolioStyle}
         />
+        
+        {/* Add Liquidity Modal */}
+        <Dialog open={isLPModalOpen} onOpenChange={setIsLPModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Liquidity to Pool</DialogTitle>
+              <DialogDescription>
+                Select your preferred investment style to add liquidity
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="py-4 space-y-4">
+              {/* Portfolio style buttons */}
+              <div className="grid grid-cols-3 gap-2">
+                <Button
+                  variant="outline" 
+                  className={selectedPortfolioStyle === "conservative" ? "border-primary" : ""}
+                  onClick={() => setSelectedPortfolioStyle("conservative")}
+                >
+                  Conservative
+                </Button>
+                <Button
+                  variant="outline"
+                  className={selectedPortfolioStyle === "moderate" ? "border-primary" : ""}
+                  onClick={() => setSelectedPortfolioStyle("moderate")}
+                >
+                  Moderate
+                </Button>
+                <Button
+                  variant="outline"
+                  className={selectedPortfolioStyle === "aggressive" ? "border-primary" : ""}
+                  onClick={() => setSelectedPortfolioStyle("aggressive")}
+                >
+                  Aggressive
+                </Button>
+              </div>
+              
+              {/* Display the selected pool using existing LPIntegration */}
+              {selectedPortfolioStyle && (
+                <LPIntegration portfolioStyle={selectedPortfolioStyle} />
+              )}
+              
+              {/* Help button */}
+              <Button 
+                variant="link"
+                onClick={() => {
+                  setInput("How do I provide liquidity to a pool?");
+                  handleSend();
+                  setIsLPModalOpen(false);
+                }}
+              >
+                Need help? Ask the assistant
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
@@ -174,7 +247,19 @@ const ChatBox = () => {
       
       {/* Display recommended pool if portfolio style is selected */}
       {selectedPortfolioStyle && (
-        <RecommendedPool portfolioStyle={selectedPortfolioStyle} />
+        <div className="space-y-4">
+          <RecommendedPool portfolioStyle={selectedPortfolioStyle} />
+          {/* Add Liquidity button appears after strategy selection */}
+          <Button
+            variant="gradient"
+            size="gradient"
+            className="w-full"
+            onClick={() => setIsLPModalOpen(true)}
+          >
+            <PlusIcon size={20} />
+            Add Liquidity to {selectedPortfolioStyle.charAt(0).toUpperCase() + selectedPortfolioStyle.slice(1)} Pool
+          </Button>
+        </div>
       )}
 
       {/* Scrollable chat messages area */}
@@ -192,7 +277,8 @@ const ChatBox = () => {
         <QuickActionButtons onQuickAction={(query) => {
           setInput(query);
           handleSend();
-        }} />
+        }} 
+        disabled={isLoading} />
         <ChatInput
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -208,6 +294,62 @@ const ChatBox = () => {
         onClose={() => setIsPortfolioStyleModalOpen(false)}
         onSelectStyle={setSelectedPortfolioStyle}
       />
+
+      {/* Add Liquidity Modal */}
+      <Dialog open={isLPModalOpen} onOpenChange={setIsLPModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Liquidity to Pool</DialogTitle>
+            <DialogDescription>
+              Select your preferred investment style to add liquidity
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="py-4 space-y-4">
+            {/* Portfolio style buttons */}
+            <div className="grid grid-cols-3 gap-2">
+              <Button
+                variant="outline" 
+                className={selectedPortfolioStyle === "conservative" ? "border-primary" : ""}
+                onClick={() => setSelectedPortfolioStyle("conservative")}
+              >
+                Conservative
+              </Button>
+              <Button
+                variant="outline"
+                className={selectedPortfolioStyle === "moderate" ? "border-primary" : ""}
+                onClick={() => setSelectedPortfolioStyle("moderate")}
+              >
+                Moderate
+              </Button>
+              <Button
+                variant="outline"
+                className={selectedPortfolioStyle === "aggressive" ? "border-primary" : ""}
+                onClick={() => setSelectedPortfolioStyle("aggressive")}
+              >
+                Aggressive
+              </Button>
+            </div>
+            
+            {/* Display the selected pool using existing LPIntegration */}
+            {selectedPortfolioStyle && (
+              <LPIntegration portfolioStyle={selectedPortfolioStyle} />
+            )}
+            
+            {/* Help button */}
+            <Button 
+              variant="link"
+              onClick={() => {
+                setInput("How do I provide liquidity to a pool?");
+                handleSend();
+                setIsLPModalOpen(false);
+              }}
+            >
+              Need help? Ask the assistant
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
