@@ -11,6 +11,7 @@ import ChatMessage from "../chat-message";
 import ChatInput from "../chat-input";
 import QuickActionButtons from "./QuickActionButton";
 import PortfolioStyleModal from "./PortfolioStyleModal";
+import RecommendedPool from "../RecommendedPool";
 import { Button } from "../ui/button";
 import { anthropicService } from "@/services/anthropic";
 import { ChatMessage as ChatMessageType } from "@/types/anthropic";
@@ -126,6 +127,11 @@ const ChatBox = () => {
             <ChartLineUpIcon size={20} /> 
             {selectedPortfolioStyle ? `Profile: ${selectedPortfolioStyle.charAt(0).toUpperCase() + selectedPortfolioStyle.slice(1)}` : "Select Profile Style"}
           </Button>
+          
+          {/* Display recommended pool if portfolio style is selected */}
+          {selectedPortfolioStyle && (
+            <RecommendedPool portfolioStyle={selectedPortfolioStyle} />
+          )}
         </div>
 
         {/* Chat input area for welcome screen */}
@@ -165,6 +171,11 @@ const ChatBox = () => {
           {selectedPortfolioStyle ? `Profile: ${selectedPortfolioStyle.charAt(0).toUpperCase() + selectedPortfolioStyle.slice(1)}` : "Select Profile Style"}
         </Button>
       </div>
+      
+      {/* Display recommended pool if portfolio style is selected */}
+      {selectedPortfolioStyle && (
+        <RecommendedPool portfolioStyle={selectedPortfolioStyle} />
+      )}
 
       {/* Scrollable chat messages area */}
       <div className="flex-1 overflow-y-auto lg:pb-8 pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">

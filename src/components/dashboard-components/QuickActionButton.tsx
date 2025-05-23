@@ -1,4 +1,4 @@
-// src/components/dashboard-components/QuickActionButtons.tsx
+// src/components/dashboard-components/QuickActionButton.tsx
 "use client";
 
 import React from 'react';
@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 
 interface QuickActionButtonsProps {
   onQuickAction: (question: string) => void;
+  onAddLiquidity: () => void; // New callback for "Add Liquidity" action
   disabled?: boolean;
 }
 
 const QuickActionButtons: React.FC<QuickActionButtonsProps> = ({ 
   onQuickAction,
+  onAddLiquidity,
   disabled = false 
 }) => {
   // Quick action questions
@@ -39,6 +41,16 @@ const QuickActionButtons: React.FC<QuickActionButtonsProps> = ({
           {action.text}
         </Button>
       ))}
+      
+      {/* New Add Liquidity button */}
+      <Button
+        variant="gradient"
+        size="secondary"
+        disabled={disabled}
+        onClick={onAddLiquidity}
+      >
+        Add Liquidity
+      </Button>
     </div>
   );
 };
