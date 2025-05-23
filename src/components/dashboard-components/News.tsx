@@ -74,7 +74,7 @@ export default function NewsSection() {
         <Button
           variant="outline"
           size="icon"
-          className="fixed bottom-20 right-4 z-20 rounded-full bg-primary hover:bg-primary/80 shadow-lg md:bottom-20"
+          className="fixed bottom-21 right-4 z-20 rounded-full bg-primary hover:bg-primary/80 shadow-lg md:bottom-21"
           onClick={() => setIsOpen(true)}
         >
           <Newspaper className="h-5 w-5" />
@@ -165,80 +165,3 @@ export default function NewsSection() {
   );
 }
 
-// import {
-//   Card,
-//   CardHeader,
-//   CardTitle,
-//   CardDescription,
-//   CardContent,
-// } from "../ui/card";
-
-// const News = () => {
-//   const newsItems = [
-//     {
-//       id: 1,
-//       title: "Grayscale BTC Trust Transfers $911M Worth of BTC",
-//       time: "1hours ago",
-//     },
-//     {
-//       id: 2,
-//       title:
-//         "El Salvador Committed to Buying Bitcoin Despite IMF Deal, Minister Says",
-//       time: "1hours ago",
-//     },
-//     {
-//       id: 3,
-//       title:
-//         "Bitcoin Seoul 2025 to Host Global Industry Leaders for Asia's Largest Bitcoin-Focused Conference",
-//       time: "1hours ago",
-//     },
-//     {
-//       id: 4,
-//       title:
-//         "Bitcoin ETFs Hit Eighth Day of Successive Gains With $173 Million Inflow",
-//       time: "1hours ago",
-//     },
-//     {
-//       id: 5,
-//       title:
-//         "Bitcoin Price Watch: Consolidation Tightens—Is a Surge to $98K Next?",
-//       time: "1hours ago",
-//     },
-//   ];
-
-//   return (
-//     <div>
-//       <Card className="relative overflow-hidden">
-//         {/* Radial blur effect in top right corner */}
-//         <div className="absolute inset-0 z-0 flex items-center justify-center">
-//           <div className="absolute top-14 w-[600px] transform -translate-y-1/2 h-[700px] rounded-full bg-background blur-[40px] opacity-100"></div>
-//         </div>
-
-//         <div className="z-10">
-//         <CardHeader>
-//           <CardTitle>News</CardTitle>
-//         </CardHeader>
-//         <CardDescription>
-//           <p>Read latest news about Bitcoin</p>
-//         </CardDescription>
-//         <CardContent className="flex flex-col gap-4">
-//           {newsItems.map((item) => (
-//             <p className="flex items-start text-white text-sm" key={item.id}>
-//               <span className="text-primary-foreground bg-secondary rounded-full p-2 w-5 h-5 flex items-center justify-center mr-3">
-//                 {item.id}
-//               </span>
-//               {item.title}
-//               <span className="ml-2 text-sub-text text-nowrap">
-//                 {item.time}
-//               </span>
-//             </p>
-//           ))}
-//         </CardContent>
-//         </div>
-//       </Card>
-
-//     </div>
-//   );
-// };
-
-// export default News;

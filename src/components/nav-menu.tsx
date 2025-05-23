@@ -28,7 +28,7 @@ const components: { title: string; href: string; description: string }[] = [
     title: "Bridge",
     href: "/bridge",
     description:
-      "Convert BTC to lBTC via bridge.",
+      "Convert BTC to wBTC via bridge.",
   },
 ]
 

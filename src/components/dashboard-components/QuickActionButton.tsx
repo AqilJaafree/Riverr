@@ -16,7 +16,7 @@ const QuickActionButtons: React.FC<QuickActionButtonsProps> = ({
   // Quick action questions
   const quickActions = [
     { text: "What is Pool?", prompt: "What is a liquidity pool and how does it work in DeFi?" },
-    { text: "Why Solana with BTC?", prompt: "Why is Solana a good blockchain for BTC liquidity and what are the advantages?" },
+    { text: "Why Sui with BTC?", prompt: "Why is Sui a good blockchain for BTC liquidity and what are the advantages?" },
     { text: "What is risk involve?", prompt: "What are the risks involved with providing liquidity in BTC pools?" },
     { text: "What is LP?", prompt: "What is LP (Liquidity Provider) and how do LP tokens work?" }
   ];
@@ -27,7 +27,8 @@ const QuickActionButtons: React.FC<QuickActionButtonsProps> = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-2 justify-start items-start mb-2">
+    <div className="w-[300px] md:w-full overflow-hidden flex ">
+      <div className="flex overflow-x-auto scrollbar-hide gap-2 mb-3">
       {quickActions.map((action, index) => (
         <Button
           key={index}
@@ -39,6 +40,7 @@ const QuickActionButtons: React.FC<QuickActionButtonsProps> = ({
           {action.text}
         </Button>
       ))}
+    </div>
     </div>
   );
 };
