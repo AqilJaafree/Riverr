@@ -1,5 +1,6 @@
-import React from "react";
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Component } from "@/components/profile-components/LineChart";
 
 export default function PerformanceChart() {
     // Dummy performance data for illustration
@@ -15,9 +16,8 @@ export default function PerformanceChart() {
                 <CardTitle>Cumulative P&amp;L</CardTitle>
             </CardHeader>
             <CardContent>
-                {/* Replace this with an actual line chart */}
-                <div className="h-64 flex items-center justify-center border border-dashed border-gray-700">
-                    <p>Line Chart Placeholder</p>
+                <div >
+                    <Component />
                 </div>
                 <ul className="mt-4 space-y-2">
                     {performanceData.map((item, index) => (

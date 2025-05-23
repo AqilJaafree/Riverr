@@ -72,6 +72,7 @@
   --shadow-xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.18),
     0px 8px 10px -1px hsl(0 0% 0% / 0.18);
   --shadow-2xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.45);
+
 }
 
 .dark {
@@ -218,7 +219,7 @@
   @apply text-[var(--sub-text)];
 }
 
-.wkit-button {
+.wkit-button, .wkit-connected-button {
   @apply bg-gradient-to-b from-[var(--button-gradient-start)] to-[var(--button-gradient-end)];
   width: fit-content !important;
   font-weight: 500 !important;
@@ -228,4 +229,44 @@
   border: 1px solid var(--primary) !important;
   padding: 8px 24px !important;
   border-radius: 5px !important;
+}
+
+.wkit-connected-container {
+  background-color: transparent !important;
+  color: white !important;
+  width: fit-content !important;
+}
+
+.wkit-connected-button span {
+  color: white !important;
+}
+
+.wkit-disconnect-button__container {
+  z-index: 10;
+}
+
+
+
+ /* PHONE MEDIA QUERY */
+ @media only screen and (max-width: 767px) {
+  .wkit-connected-button .wkit-address-select__address{
+    display: none !important;
+  }
+  .wkit-disconnect-button__container {
+    width: 100% !important;
+  }
+
+  .wkit-connected-button {
+    padding: 8px 16px !important;
+  }
+
+  .wkit-connected-button .wkit-connected-button__balance {
+    font-size: 14px !important;
+  }
+  
+}
+
+/* TABLET AND IPAD QUERY */
+@media (min-width: 768px) and (max-width: 1024px) {
+  
 }

@@ -97,7 +97,7 @@ export const BtcBridge = () => {
 
       {/* Connect Wallet Button */}
       <div className="w-full">
-        <div className="[&_.wkit-button]:!w-full [&_.wkit-connected-button]:!w-full">
+        <div className="[&_.wkit-button]:!w-full [&_.wkit-connected-button]:!w-full [&_.wkit-connected-container]:!w-full">
           <ConnectButton />
         </div>
       </div>

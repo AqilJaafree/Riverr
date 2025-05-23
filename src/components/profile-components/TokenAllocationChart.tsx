@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Component } from "@/components/profile-components/PieChart";
 
 export default function TokenAllocationChart() {
     // Dummy data for token distribution
@@ -18,9 +19,8 @@ export default function TokenAllocationChart() {
                 <CardTitle>Token Allocation</CardTitle>
             </CardHeader>
             <CardContent>
-                {/* Replace this placeholder with an actual chart component */}
-                <div className="h-64 flex items-center justify-center border border-dashed border-gray-700">
-                    <p>Pie Chart Placeholder</p>
+                <div >
+                    <Component />
                 </div>
                 <ul className="mt-4 space-y-2">
                     {data.map((item, index) => (
