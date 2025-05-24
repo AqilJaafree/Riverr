@@ -26,10 +26,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ response });
-  } catch (error: any) {
+  } catch (error: Error | unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error in chat API route:', error);
     return NextResponse.json(
-      { error: error.message || 'An unknown error occurred' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

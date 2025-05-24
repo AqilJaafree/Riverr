@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // src/components/pools/PoolList.tsx - Example usage component
 import React from 'react';
 import { usePools } from '@/hooks/use-pools';
