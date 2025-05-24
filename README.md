@@ -15,6 +15,6 @@ Choose your preferred risk level and investment approach to personalize your exp
 2. Chat with AI
 Interact with our AI chatbox to discover the best liquidity pools (LPs) that match your investment style and goals.
 3. Bridge BTC to wBTC
-Seamlessly bridge your BTC to Sui using Bridge, integrated through Hypebiscus, to receive zBTC (pegged 1:1 to BTC).
+Seamlessly bridge your BTC to Sui using Bridge, integrated through Hypebiscus, to receive wBTC (pegged 1:1 to BTC).
 4. One-Click LP Deployment
 With a single click, deploy your wBTC into the ideal liquidity pool recommended by the AI-no manual steps required.
