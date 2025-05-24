@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { ConnectButton, useWallet } from "@suiet/wallet-kit";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Image from "next/image";
-import { Loader2, AlertTriangle, ExternalLink, Coins } from "lucide-react";
+import { Loader2} from "lucide-react";
 import { useGeckoPool, getPoolAddressForStyle } from "@/hooks/useGeckoPool";
 import { Transaction } from "@mysten/sui/transactions";
 
@@ -27,7 +27,11 @@ interface CoinBalance {
   formattedBalance: string;
 }
 
-// @ts-ignore
+interface Coin {
+  coinObjectId: string;
+  balance: string;
+}
+
 const useWalletHook = useWallet;
 
 const FixedLPIntegration: React.FC<FixedLPIntegrationProps> = ({ portfolioStyle }) => {
@@ -81,7 +85,7 @@ const FixedLPIntegration: React.FC<FixedLPIntegrationProps> = ({ portfolioStyle 
 
       // Get largest WBTC coin
       if (wbtcData.coins && wbtcData.coins.length > 0) {
-        const largestWbtc = wbtcData.coins.reduce((largest: any, current: any) => 
+        const largestWbtc = wbtcData.coins.reduce((largest: Coin, current: Coin) => 
           parseInt(current.balance) > parseInt(largest.balance) ? current : largest
         );
         setWbtcBalance({
@@ -93,17 +97,17 @@ const FixedLPIntegration: React.FC<FixedLPIntegrationProps> = ({ portfolioStyle 
 
       // Calculate total SUI balance and find best coin for gas
       if (suiData.coins && suiData.coins.length > 0) {
-        const totalSuiBalance = suiData.coins.reduce((sum: number, coin: any) => 
+        const totalSuiBalance = suiData.coins.reduce((sum: number, coin: Coin) => 
           sum + parseInt(coin.balance), 0
         );
         
         // Find largest SUI coin that can cover gas (at least 0.1 SUI)
-        const suitableForGas = suiData.coins.filter((coin: any) => 
+        const suitableForGas = suiData.coins.filter((coin: Coin) => 
           parseInt(coin.balance) >= 100000000 // At least 0.1 SUI
         );
         
         if (suitableForGas.length > 0) {
-          const bestSui = suitableForGas.reduce((largest: any, current: any) => 
+          const bestSui = suitableForGas.reduce((largest: Coin, current: Coin) => 
             parseInt(current.balance) > parseInt(largest.balance) ? current : largest
           );
           
@@ -131,8 +135,7 @@ const FixedLPIntegration: React.FC<FixedLPIntegrationProps> = ({ portfolioStyle 
 
   const openProvideLiquidityDialog = () => {
     if (!connected) {
-      // @ts-ignore
-      wallet.select();
+      wallet.select(""); // Adding empty string to satisfy the argument count
       return;
     }
     setIsDialogOpen(true);

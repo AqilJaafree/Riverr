@@ -10,7 +10,8 @@ export class AnthropicService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          messages
+          messages,
+          temperature
         })
       });
 

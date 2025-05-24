@@ -6,9 +6,9 @@ const Profile = () => {
   return (
     <div>
       <Header />
-      <main className="p-6">
+      <div className="lg:px-[70px] mb-6 lg:max-w-5xl w-full px-4 mx-auto mt-[48px]">
         <Dashboard />
-      </main>
+      </div>
     </div>
   )
 }

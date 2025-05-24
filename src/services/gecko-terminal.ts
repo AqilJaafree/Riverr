@@ -107,6 +107,18 @@ export interface TrendingPoolsResponse {
   included?: TokenInfo[];
 }
 
+export interface TokenPriceResponse {
+  data: {
+    id: string;
+    type: string;
+    attributes: {
+      price_usd: string;
+      price_native_currency: string;
+      timestamp: string;
+    }
+  }
+}
+
 class GeckoTerminalService {
   private baseUrl = BASE_URL;
 
@@ -178,8 +190,8 @@ class GeckoTerminalService {
   }
 
   // Get token price (used in your existing TokenTable component)
-  async getTokenPrice(networkId: string, tokenAddress: string): Promise<any> {
-    return this.fetchApi<any>(`/simple/networks/${networkId}/token_price/${encodeURIComponent(tokenAddress)}`);
+  async getTokenPrice(networkId: string, tokenAddress: string): Promise<TokenPriceResponse> {
+    return this.fetchApi<TokenPriceResponse>(`/simple/networks/${networkId}/token_price/${encodeURIComponent(tokenAddress)}`);
   }
 
   // Helper method to get formatted pool data for UI

@@ -46,7 +46,7 @@ export const BtcBridge = () => {
     }
   ]);
 
-  // @ts-ignore - Using wallet without parameters to avoid type errors
+  // Using wallet without parameters to avoid type errors
   const wallet = useWallet();
   const { connected, account } = wallet;
 
@@ -69,8 +69,8 @@ export const BtcBridge = () => {
 
   const handleBridgeAndMint = async () => {
     if (!connected || !account) {
-      // @ts-ignore
-      wallet.select();
+      
+      wallet.select('wallet');
       return;
     }
 
@@ -228,11 +228,18 @@ export const BtcBridge = () => {
           </div>
         </div>
 
+        {/* Connect Wallet Button */}
+        <div className="w-full">
+          <div className="[&_.wkit-button]:!w-full [&_.wkit-connected-button]:!w-full [&_.wkit-connected-container]:!w-full">
+            <ConnectButton />
+          </div>
+        </div>
+
         {/* Transaction Steps */}
         {isProcessing && (
           <div className="mt-6 space-y-3">
             <h4 className="text-sm font-medium">Transaction Progress</h4>
-            {steps.map((step, index) => (
+            {steps.map((step) => (
               <div key={step.id} className="flex items-center gap-3 p-3 bg-background/50 rounded-lg">
                 {getStepIcon(step.status)}
                 <div className="flex-1">

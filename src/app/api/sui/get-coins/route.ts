@@ -30,10 +30,10 @@ export async function POST(req: NextRequest) {
       nextCursor: coins.nextCursor,
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching coins:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch coins' },
+      { error: error instanceof Error ? error.message : 'Failed to fetch coins' },
       { status: 500 }
     );
   }

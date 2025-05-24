@@ -1,5 +1,5 @@
 // src/hooks/useWBTC.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useWallet } from '@suiet/wallet-kit';
 import { Transaction } from '@mysten/sui/transactions';
 
@@ -7,10 +7,15 @@ import { Transaction } from '@mysten/sui/transactions';
 const WBTC_PACKAGE_ID = "0x4528bbf3de06e0fa07691cdddad675b70d2c25acb4cdc12011cb87fc54ca0da4";
 const WBTC_TREASURY_CAP = "0xca90f8b5200a56c5673305ae266595c9796cc9c6b723b258a74bdaf367ea9913";
 
+interface Coin {
+  coinObjectId: string;
+  balance: string;
+}
+
 export interface WBTCBalance {
   balance: string;
   formattedBalance: string;
-  coinObjects: any[];
+  coinObjects: Coin[];
 }
 
 export function useWBTC() {
@@ -22,11 +27,10 @@ export function useWBTC() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // @ts-ignore - Using wallet without parameters
   const wallet = useWallet();
   const { connected, account } = wallet;
 
-  const fetchWBTCBalance = async () => {
+  const fetchWBTCBalance = useCallback(async () => {
     if (!connected || !account) return;
 
     setLoading(true);
@@ -50,7 +54,7 @@ export function useWBTC() {
       }
 
       const data = await response.json();
-      const totalBalance = data.coins?.reduce((sum: number, coin: any) => {
+      const totalBalance = data.coins?.reduce((sum: number, coin: Coin) => {
         return sum + parseInt(coin.balance);
       }, 0) || 0;
 
@@ -69,7 +73,7 @@ export function useWBTC() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [connected, account]);
 
   const mintWBTC = async (amount: number, recipient?: string) => {
     if (!connected || !account) {
@@ -131,7 +135,7 @@ export function useWBTC() {
         coinObjects: []
       });
     }
-  }, [connected, account]);
+  }, [connected, account, fetchWBTCBalance]);
 
   return {
     wbtcBalance,
