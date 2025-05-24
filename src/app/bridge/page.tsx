@@ -3,12 +3,13 @@
 import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BtcBridge } from "@/components/bridge-components/BtcBridge";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 const Bridge = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") || "btc";
 
   const handleTabChange = (value: string) => {
     if (value === "wormhole") {
@@ -20,7 +21,7 @@ const Bridge = () => {
     <div>
       <Header />
       <div className="w-full h-full flex flex-col items-center justify-start mt-6">
-        <Tabs defaultValue={tab} className="md:w-[400px] w-full px-4" onValueChange={handleTabChange}>
+        <Tabs defaultValue="btc" className="md:w-[400px] w-full px-4" onValueChange={handleTabChange}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="btc">BTC Bridge</TabsTrigger>
             <TabsTrigger value="wormhole">Wormhole</TabsTrigger>
@@ -35,5 +36,4 @@ const Bridge = () => {
   );
 };
 
-export default Bridge;
-
+export default Bridge;  
