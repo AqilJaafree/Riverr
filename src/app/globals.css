@@ -29,6 +29,14 @@
     rgba(22, 50, 122, 1) 100%
   );
 
+  --success: #1BE3C2;
+  --bg-success: #0c3a4b;
+
+  --danger: #FF4040;
+
+  --warning: #EFB54B;
+  --bg-warning: #363032;
+
   --sub-text: #a0a0a0;
 
   --muted: #f5f5f5;

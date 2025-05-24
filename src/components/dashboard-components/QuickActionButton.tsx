@@ -1,4 +1,4 @@
-// src/components/dashboard-components/QuickActionButtons.tsx
+// src/components/dashboard-components/QuickActionButton.tsx
 "use client";
 
 import React from 'react';
