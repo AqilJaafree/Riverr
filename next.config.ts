@@ -3,16 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   
-  // Disable static optimization for pages that require client-side rendering
-  experimental: {
-    // Force dynamic rendering for specific routes
-    dynamicIO: true,
-  },
-  
-  // Alternative: Configure static generation behavior
-  trailingSlash: false,
-  
-  // Ensure environment variables are available at build time
+  // Remove the experimental dynamicIO - not available in this version
+  // Instead, handle the environment variables properly
   env: {
     NEXT_PUBLIC_RPC_URL_ETHEREUM: process.env.NEXT_PUBLIC_RPC_URL_ETHEREUM,
     NEXT_PUBLIC_RPC_URL_SUI: process.env.NEXT_PUBLIC_RPC_URL_SUI,
